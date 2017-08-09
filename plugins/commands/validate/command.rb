@@ -16,6 +16,9 @@ module VagrantPlugins
         argv = parse_options(opts)
         return if !argv
 
+        # If the Vagrantfile doesn't exist, raise NoEnvironmentError
+        raise Errors::NoEnvironmentError if !@env.root_path
+
         # Validate the configuration
         @env.machine(@env.machine_names.first, @env.default_provider).action_raw(
           :config_validate,
